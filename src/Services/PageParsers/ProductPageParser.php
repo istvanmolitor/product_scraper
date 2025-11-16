@@ -31,6 +31,7 @@ abstract class ProductPageParser extends PageParser
     {
         if($type === 'product') {
             $product = new ProductDto();
+            $product->source = 'product_scraper';
             $this->fillProduct($product, $html);
             return [
                 'product' => $product,
