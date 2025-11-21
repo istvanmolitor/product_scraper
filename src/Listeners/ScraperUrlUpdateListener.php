@@ -22,7 +22,7 @@ class ScraperUrlUpdateListener
     public function handle(ScraperUrlUpdateEvent $event): void
     {
         if($event->scraperUrl->type == 'product') {
-            $product = $event->data['product'];
+            $productDto = $event->data['product'];
 
             $baseUrl = $event->scraperUrl->scraper->base_url;
 
@@ -31,7 +31,7 @@ class ScraperUrlUpdateListener
 
             /** @var $customerProductDtoService */
             $customerProductDtoService = app(CustomerProductDtoService::class);
-            $customerProductDtoService->saveDto($customer, $product);
+            $customerProductDtoService->saveDto($customer, $productDto);
         };
     }
 }

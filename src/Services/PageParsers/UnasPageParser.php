@@ -24,12 +24,11 @@ class UnasPageParser extends ProductPageParser
 
         $language = 'hu';
 
-
         foreach ($html->getLinkedData() as $linkedData) {
             if ($linkedData['@type'] === 'Product') {
                 $product->sku = $linkedData['sku'];
-                $product->name->set($language, $linkedData['name']);
-                $product->description->set($language, $linkedData['description']);
+                $product->name->set($language, $linkedData['name'] ?? null);
+                $product->description->set($language, $linkedData['description'] ?? null);
                 $product->price = $linkedData['offers']['price'];
                 $product->currency = $linkedData['offers']['priceCurrency'];
                 $product->url = $linkedData['url'];
@@ -64,8 +63,9 @@ class UnasPageParser extends ProductPageParser
                 foreach ($linkedData['itemListElement'] as $category) {
                     $categoryPath[] = $category['name'];
                 }
+
                 $categoryDto = new ProductCategoryDto();
-                $categoryDto->path->set($language, implode('/', $categoryPath));
+                $categoryDto->path->setArrayPath($language, $categoryPath);
                 $product->addCategory($categoryDto);
             }
         }
